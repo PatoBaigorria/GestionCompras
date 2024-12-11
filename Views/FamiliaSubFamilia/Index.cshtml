@@ -1,0 +1,100 @@
+@model Gestion_Compras.ViewModels.FamiliaSubFamiliaViewModel
+
+@{
+    ViewData["Title"] = "Gestión de Familias y Subfamilias";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Familias y Subfamilias</h2>
+
+    <!-- Formulario para crear Subfamilia -->
+    <form id="familiaSubfamiliaForm" method="post" asp-controller="FamiliaSubFamilia" asp-action="CrearFamiliaYSubfamilia">
+        @Html.AntiForgeryToken()
+
+        <!-- Selección de Familia -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="familiaSelect" class="form-label">Seleccione una Familia</label>
+                <select id="familiaSelect" name="FamiliaId" class="form-select">
+                    <option value="">Seleccione una Familia</option>
+                    @foreach (var familia in Model.FamiliaList)
+                    {
+                        <option value="@familia.Id">@familia.Descripcion</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button type="button" class="btn btn-primary" id="addFamiliaBtn" data-bs-toggle="modal" data-bs-target="#addFamiliaModal">Nueva Familia</button>
+            </div>
+        </div>
+
+        <!-- Código Subfamilia -->
+        <div class="row mb-3">
+            <label for="codigoSubFamilia" class="form-label">Código Subfamilia</label>
+            <input type="text" id="codigoSubFamilia" name="Codigo" class="form-control" placeholder="Código" readonly />
+        </div>
+
+        <!-- Descripción Subfamilia -->
+        <div class="row mb-3">
+            <label for="descripcionSubFamilia" class="form-label">Descripción Subfamilia</label>
+            <input type="text" id="descripcionSubFamilia" name="Descripcion" class="form-control" placeholder="Descripción" required />
+        </div>
+
+        <!-- Botón de envío -->
+        <button type="submit" class="btn btn-success mt-3">Guardar</button>
+    </form>
+</div>
+
+<!-- Modal para agregar una nueva Familia -->
+<div class="modal fade" id="addFamiliaModal" tabindex="-1" aria-labelledby="addFamiliaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFamiliaModalLabel">Nueva Familia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="addFamiliaForm" method="post" asp-controller="Familia" asp-action="CreateFamilia">
+                    @Html.AntiForgeryToken()
+
+                    <label for="descripcionFamilia" class="form-label">Descripción Familia</label>
+                    <input type="text" id="descripcionFamilia" name="Descripcion" class="form-control" placeholder="Descripción" required />
+
+                    <button type="submit" class="btn btn-primary mt-3">Guardar Familia</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            
+            // Envío del formulario AJAX
+            $("#familiaSubfamiliaForm").submit(function (e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '/FamiliaSubFamilia/Create',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        alert('Subfamilia guardada correctamente');
+                        window.location.href = '/FamiliaSubFamilia/Index';
+                    },
+                    error: function (xhr) {
+                        alert('Hubo un error al guardar la subfamilia');
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+            
+        });
+    </script>
+}

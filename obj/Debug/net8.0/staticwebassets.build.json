@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "iy50YlpnQyTueJ9MhwpE4g55TGLBXx0lljPPLZk6w2Y=",
+  "Source": "Gestion-Compras",
+  "BasePath": "_content/Gestion-Compras",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Gestion-Compras\\wwwroot",
+      "Source": "Gestion-Compras",
+      "ContentRoot": "E:\\Gestion-Compras\\wwwroot\\",
+      "BasePath": "_content/Gestion-Compras",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
